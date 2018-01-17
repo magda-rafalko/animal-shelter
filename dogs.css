@@ -1,0 +1,142 @@
+html {
+  height: 100%;
+  font-family: Georgia, serif;
+  font-family: 'Amatic SC', cursive;
+  font-size: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  padding: 35px;
+  text-align: center;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+table .highlight {
+  background: #5B7F79;
+}
+
+thead {
+  background-color: #729f98;
+}
+
+table, th, td {
+  border: 2px solid #283018;
+}
+
+tr {
+  height: 50px;
+}
+
+th {
+  cursor: pointer;
+}
+
+h1 {
+  text-align: center;
+  font-family: 'Amatic SC', cursive;
+  font-size: 60px;
+  letter-spacing: 3px;
+  margin: 0;
+  padding: 50px;
+  text-shadow: 0.05em 0.05em 0.05em #ddd6d4;
+}
+
+#top {
+  background-color: #ddd6d4;
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+  background-image: -o-linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+  background-image: linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
+  -webkit-background-size: 50px 50px;
+  -moz-background-size: 50px 50px;
+  background-size: 50px 50px;
+}
+
+legend {
+  background-color: rgba(114, 159, 152, 0.6);
+  width: 50%;
+  border: 1px solid #283018;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: left;
+  text-transform: full-width;
+  font-size: 30px;
+}
+
+form {
+  margin: 50px auto;
+  width: 500px;
+  top: 50px;
+  background-color: rgba(214, 217, 233, 0.6);
+  padding: 35px;
+  border-radius: 10px;
+  font-size: 30px;
+}
+
+.afterTable {
+  background: url("background.jpeg");
+  background-size: cover;
+  padding: 50px;
+}
+
+fieldset {
+  border: 1px solid #283018;
+  border-radius: 6px;
+  padding: 25px;
+}
+
+input[type=text], input[type=email], textarea {
+  line-height: 25px;
+  width: 100%;
+}
+
+.smallButton {
+  height: 30px;
+  background-color: #729f98;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 0 10px;
+  font-size: 14px;
+  line-height: 28px;
+  text-align: center;
+  border: 1px solid #283018;
+}
+
+.remove-button {
+  font-size: 30px;
+  color: darkred;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.bigButton {
+  width: 100%;
+  background-color: #729f98;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 25px;
+  font-size: 17px;
+  letter-spacing: 2px;
+  border: 1px solid #283018;
+}
+
+input[type=button]:hover {
+  background-color: #283018;
+}
+
+.addAlert, .mailAlert {
+  padding: 15px;
+  border: 1px solid #d6e9c6;
+  border-radius: 4px;
+  color: #3c763d;
+  background-color: #dff0d8;
+  margin: 20px;
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <title>DOGS</title>
+    <link href="dogs.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC" rel="stylesheet">
+  </head>
+
+  <body>
+    <div id="top">
+      <h1>Lista psów do adopcji</h1>
+    </div>
+    <table id = "table">
+      <thead>
+        <tr>
+          <th data-type="string" id="name" class="name" scope="col">Imię</th>
+          <th data-type="string" id="age" class="age" scope="col">Wiek</th>
+          <th data-type="string" id="size" scope="col">Wielkość</th>
+          <th data-type="string" id="sex" scope="col">Płeć</th>
+          <th data-type="string" id="subcribe" scope="col">Dodatkowy opis</th>
+          <th data-type="string" scope="col">Data dodania</th>
+          <th data-type="string" id="email" scope="col">E-mail</th>
+          <th scope="col">Edytuj</th>
+          <th scope="col">Usuń</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+<div class="afterTable">
+    <form id="myForm" method="post">
+      <fieldset>
+
+        <legend>Dodaj nowego psa:</legend>
+
+          <label>Imię psa:</label>
+            <input id="dogName" type="text" name="dogName"/>
+
+          <p><label for="dogAge">Wiek:</label>
+            <select id="dogAge" name="dogAge">
+              <option name="dogAge" value="brak informacji" selected>brak informacji</option>
+              <option name="dogAge" value="0-1">0-1</option>
+              <option name="dogAge" value="1-5">1-5</option>
+              <option name="dogAge" value="5-10">5-10</option>
+              <option name="dogAge" value="Więcej niż 10">Więcej niż 10</option>
+            </select></p>
+
+          <p>Wielkość:
+            <input id="sizeChocice1" type="radio" name="dogSize" value="Mały" checked/>
+            <label for="sizeChooice1" class=radio-label>Mały</label>
+            <input id="sizeChocice2" type="radio" name="dogSize" value="Średni" />
+            <label for="sizeChoice2" class=radio-label>Średni</label>
+            <input id="sizeChocice3" type="radio" name="dogSize" value="Duży" />
+            <label for="sizeChoice3" class=radio-label>Duży</label></p>
+
+          <p>Płeć:
+            <input id="sexChoice1" type="radio" name="dogSex" value="Samiec" checked/>
+            <label for="sexChoice1">Samiec</label>
+            <input id="sexChoice2" type="radio" name="dogSex" value="Suczka" />
+            <label for="sexChoice2">Suczka</label></p>
+
+          <p>Dodatkowy opis:<br>
+            <textarea id="dogSubscribe" name="subscribe" placeholder="opis..."></textarea></p>
+
+          <p>Data dodania:
+            <input id="addDate" type="date"/></p>
+
+          <p>Akceptacja dodania:<br>
+            <input id="accept" type="checkbox" name="rules" value="yes" checked/>
+            Zgadzam się na dodanie psa do tabeli</p>
+
+      </fieldset>
+      <br>
+      <fieldset>
+
+        <legend>Dane do kontaktu:</legend>
+
+          <label>E-mail:</label>
+            <input id="addEmail" type="email" name="email"/>
+      </fieldset>
+
+      <input id="addDog" type="button" class="bigButton" name="add" value="Prześlij dane" onclick="addOrEditDog()"/>
+
+      <h1 id="blink">Nie kupuj, przygarnij!</h1>
+
+    </form>
+  </div>
+
+    <script src=dogs.js></script>
+
+  </body>
+
+</html>
