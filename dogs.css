@@ -1,6 +1,5 @@
 html {
   height: 100%;
-  font-family: Georgia, serif;
   font-family: 'Amatic SC', cursive;
   font-size: 20px;
 }
@@ -10,11 +9,11 @@ table {
   width: 100%;
   padding: 35px;
   text-align: center;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Open Sans Condensed', sans-serif;
 }
 
 table .highlight {
-  background: #5B7F79;
+  background: #daf5f0;
 }
 
 thead {
@@ -39,19 +38,15 @@ h1 {
   font-size: 60px;
   letter-spacing: 3px;
   margin: 0;
-  padding: 50px;
+  padding: 30px;
   text-shadow: 0.05em 0.05em 0.05em #ddd6d4;
 }
-
-#top {
-  background-color: #ddd6d4;
-  background-image: -moz-linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
-  background-image: -o-linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
-  background-image: linear-gradient(rgba(255, 255, 255, .2) 50%, transparent 50%, transparent);
-  -webkit-background-size: 50px 50px;
-  -moz-background-size: 50px 50px;
-  background-size: 50px 50px;
+h2 {
+  font-size: 30px;
+  font-weight: normal;
+  margin: 15px;
 }
+
 
 legend {
   background-color: rgba(114, 159, 152, 0.6);
@@ -95,7 +90,6 @@ input[type=text], input[type=email], textarea {
   height: 30px;
   background-color: #729f98;
   color: white;
-  border: none;
   border-radius: 6px;
   cursor: pointer;
   padding: 0 10px;
@@ -105,6 +99,10 @@ input[type=text], input[type=email], textarea {
   border: 1px solid #283018;
 }
 
+.icon {
+  width: 20px;
+  color: #ffffff;
+}
 .remove-button {
   font-size: 30px;
   color: darkred;
@@ -118,17 +116,17 @@ input[type=text], input[type=email], textarea {
   background-color: #729f98;
   color: white;
   padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
   border-radius: 6px;
   cursor: pointer;
   margin-top: 25px;
-  font-size: 17px;
-  letter-spacing: 2px;
+  font-size: 30px;
+  letter-spacing: 3px;
   border: 1px solid #283018;
+  font-family: 'Amatic SC', cursive;
+  font-weight: bold;
 }
 
-input[type=button]:hover {
+button:hover {
   background-color: #283018;
 }
 
@@ -139,4 +137,96 @@ input[type=button]:hover {
   color: #3c763d;
   background-color: #dff0d8;
   margin: 20px;
+}
+
+.radio-label {
+  display: block;
+  position: relative;
+  padding-left: 100px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 20px;
+}
+
+.radio-label input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #afafaf;
+  border-radius: 50%;
+  margin-left: 60px;
+}
+
+.radio-label:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+.radio-label input:checked ~ .checkmark {
+  background-color: #729f98;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.radio-label input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.radio-label .checkmark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.checkbox {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #afafaf;
+  margin-left: 60px;
+}
+.radio-label:hover input ~ .checkbox {
+  background-color: #ccc;
+}
+
+.radio-label input:checked ~ .checkbox {
+  background-color: #661815;
+
+}
+
+.checkbox:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.radio-label input:checked ~ .checkbox:after {
+  display: block;
+}
+
+.radio-label .checkbox:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
 }
