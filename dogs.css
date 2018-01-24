@@ -27,6 +27,9 @@ table, th, td {
 tr {
   height: 50px;
 }
+tr:hover:not(.no-highlight) {
+  background: #ddf0e8;
+}
 
 th {
   cursor: pointer;
@@ -130,7 +133,7 @@ button:hover {
   background-color: #283018;
 }
 
-.addAlert, .mailAlert {
+.validation-alert {
   padding: 15px;
   border: 1px solid #d6e9c6;
   border-radius: 4px;
@@ -229,4 +232,8 @@ button:hover {
   border: solid white;
   border-width: 0 3px 3px 0;
   transform: rotate(45deg);
+}
+
+.id {
+  display: none;
 }
