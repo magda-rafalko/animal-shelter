@@ -1,5 +1,6 @@
 let editMode = false;
 let editRowNumber;
+let editDogId;
 
 function onLoad() {
     getDogs();
@@ -9,22 +10,24 @@ function onLoad() {
     table.onclick = function (event) {
         if (event.target.tagName !== 'TH') return;
 
-        let th = event.target;
+        const th = event.target;
         sortTable(th.cellIndex, th.dataset.type);
     };
 }
 
 function addOrEditDog() {
-    const formValid = validateForm();
-    if (formValid && editMode)
-        editDog();
-    else if (formValid)
-        addDog();
     hideAlerts();
+    const formValid = validateForm();
+    if (formValid && editMode) {
+        editDog();
+    } else if (formValid) {
+        addDog();
+    }
 }
 
-function startEditRow(row) {
+function startEditRow(row, id) {
     editMode = true;
+    editDogId = id;
     
     changeLegendText('Zmień dane psa:');
     changeButtonText('Zmień');
@@ -33,16 +36,19 @@ function startEditRow(row) {
 
     const editRow = document.getElementById('table').rows[editRowNumber];
     document.getElementById('dogName').value = editRow.cells[0].innerHTML;
-    document.getElementById('dogAge').value = editRow.cells[1].innerHTML;
-    const checkedValSize = editRow.cells[2].innerHTML;
-    const checkedButSize = document.querySelector(`input[value=${checkedValSize}]`);
-    checkedButSize.checked = true;
-    const checkedValSex = editRow.cells[3].innerHTML;
-    const checkedButSex = document.querySelector(`input[value=${checkedValSex}]`);
-    checkedButSex.checked = true;
-    document.querySelector('input[name="dogSex"]:checked').value = editRow.cells[3].innerHTML;
+
+    const age = parseAge(editRow.cells[1].innerHTML);
+    const ageRadio = document.querySelector(`input[value="${age}"]`);
+    ageRadio.checked = true;
+    const size = parseSize(editRow.cells[2].innerHTML);
+    const sizeRadio = document.querySelector(`input[value="${size}"]`);
+    sizeRadio.checked = true;
+    const sex = parseSex(editRow.cells[3].innerHTML);
+    const sexRadio = document.querySelector(`input[value="${sex}"]`);
+    sexRadio.checked = true;
     document.getElementById('dogSubscribe').value = editRow.cells[4].innerHTML;
     document.getElementById('addDate').value = editRow.cells[5].innerHTML;
+    document.getElementById('addEmail').value = editRow.cells[6].innerHTML;
     editRow.style.color = 'red';
 }
 
@@ -69,47 +75,64 @@ function getDogs() {
 }
 
 function addDog() {
-    const dog = {
-        age: parseAge(),
-        dateInserted: document.getElementById('addDate').value,
-        description: document.getElementById('dogSubscribe').value,
-        keeperEmail: document.getElementById('addEmail').value,
-        name: document.getElementById('dogName').value,
-        sex: parseSex(),
-        size: parseSize(),
-    };
+    const dog = getDogFromForm();
 
     addDogToApi(dog)
-        .then(() => {
-            insertDog(dog);
+        .then(response => {
+            insertDog(response.data);
         });
 }
 
 function editDog() {
+    const dog = getDogFromForm();
+
+    putDogToApi(editDogId, dog)
+        .then(() => {
+            editDogInTable(dog)
+        });
+}
+
+function editDogInTable(dog) {
     const editRow = document.getElementById('table').rows[editRowNumber];
-    editRow.cells[0].innerHTML = document.getElementById('dogName').value;
-    editRow.cells[1].innerHTML = document.getElementById('dogAge').value;
-    editRow.cells[2].innerHTML = document.querySelector('input[name="dogSize"]:checked').value;
-    editRow.cells[3].innerHTML = document.querySelector('input[name="dogSex"]:checked').value;
-    editRow.cells[4].innerHTML = document.getElementById('dogSubscribe').value;
-    editRow.cells[5].innerHTML = document.getElementById('addDate').value;
-    
+    editRow.cells[0].innerHTML = dog.name;
+    editRow.cells[1].innerHTML = translateAge(dog.age);
+    editRow.cells[2].innerHTML = translateSize(dog.size);
+    editRow.cells[3].innerHTML = translateSex(dog.sex);
+    editRow.cells[4].innerHTML = dog.description;
+    editRow.cells[5].innerHTML = dog.dateInserted;
+    editRow.cells[6].innerHTML = dog.keeperEmail;
+
     editMode = false;
     editRow.style.color = 'black';
-    
+
     changeButtonText('Prześlij dane');
     changeLegendText('Dodaj nowego psa:');
+    window.scrollTo(0,0);
+}
+
+function getDogFromForm() {
+    return {
+        age: document.querySelector('input[name="dogAge"]:checked').value,
+        dateInserted: document.getElementById('addDate').value,
+        description: document.getElementById('dogSubscribe').value,
+        keeperEmail: document.getElementById('addEmail').value,
+        name: document.getElementById('dogName').value,
+        sex: document.querySelector('input[name="dogSex"]:checked').value,
+        size: document.querySelector('input[name="dogSize"]:checked').value,
+    }
 }
 
 function validateForm() {
     const consentChecked = document.querySelector('input[name="rules"]').checked;
     const validEmail = document.getElementById('addEmail').value.includes('@');
 
-    if (!consentChecked)
+    if (!consentChecked) {
         showConsentAlert();
+    }
 
-    if (!validEmail)
+    if (!validEmail) {
         showEmailAlert();
+    }
 
     return consentChecked && validEmail;
 }
@@ -119,9 +142,8 @@ function hideAlerts() {
         .forEach(alert => {
             alert.remove();
         })
-
-
 }
+
 //TODO pomyśleć o znikaniu
 function showEmailAlert() {
     const div = document.createElement('div');
@@ -144,16 +166,16 @@ function insertDog(dog) {
     const newRow = table.insertRow(table.rows.length);
     newRow.setAttribute('id', dog.id);
     newRow.insertCell(0).innerHTML = dog.name;
-    newRow.insertCell(1).innerHTML = dog.age;
-    newRow.insertCell(2).innerHTML = dog.size;
-    newRow.insertCell(3).innerHTML = dog.sex;
+    newRow.insertCell(1).innerHTML = translateAge(dog.age);
+    newRow.insertCell(2).innerHTML = translateSize(dog.size);
+    newRow.insertCell(3).innerHTML = translateSex(dog.sex);
     newRow.insertCell(4).innerHTML = dog.description;
     newRow.insertCell(5).innerHTML = dog.dateInserted;
     newRow.insertCell(6).innerHTML = dog.keeperEmail;
     const editButton = document.createElement('button');
     editButton.setAttribute('id', 'editButton');
     editButton.setAttribute('class', 'smallButton');
-    editButton.setAttribute('onclick', 'startEditRow(this)');
+    editButton.setAttribute('onclick', `startEditRow(this, ${dog.id})`);
     editButton.innerHTML = '<i class="fa fa-pencil-square-o" aria-hidden="true"></i>';
     newRow.insertCell(7).appendChild(editButton);
     const deleteButton = document.createElement('button');
@@ -170,34 +192,53 @@ function changeLegendText(text) {
 
 function changeButtonText(text) {
     const changeButton = document.getElementById('addDog');
-    changeButton.value = text;
+    changeButton.textContent = text;
 }
 
-function parseSex() {
-    if (document.querySelector('input[name="dogSex"]:checked').value === 'Samiec') {
+function parseSex(dogSex) {
+    if (dogSex === 'Samiec') {
         return 'MALE';
     }
     return 'FEMALE';
 }
-function parseSize() {
-    const dogSize = document.querySelector('input[name="dogSize"]:checked').value;
+function parseSize(dogSize) {
     if (dogSize === 'Mały') {
         return 'SMALL';
     } else if (dogSize === 'Średni') {
         return 'MEDIUM';
-    } else {
-    return 'LARGE';
     }
+    return 'BIG';
 }
-function parseAge() {
-    const dogAge = document.querySelector('input[name="dogAge"]:checked').value;
+function parseAge(dogAge) {
     if (dogAge === 'brak informacji') {
         return '-';
-    } else if (dogAge === 'Więcej niż 10'){
+    } else if (dogAge === 'Więcej niż 10') {
         return '>10';
-    } return dogAge;
+    }
+    return dogAge;
 }
 
+function translateSex(sex) {
+    return sex === 'MALE' ? 'Samiec' : 'Suczka';
+}
+
+function translateSize(size) {
+    if (size === 'SMALL') {
+        return 'Mały';
+    } else if (size === 'MEDIUM') {
+        return 'Średni';
+    }
+    return 'Duży';
+}
+
+function translateAge(age) {
+    if (age === '-') {
+        return 'brak informacji';
+    } else if (age === '>10') {
+        return 'więcej niż 10';
+    }
+    return age;
+}
 
 function sortTable(colNum, type) {
   const tbody = table.querySelector('tbody');

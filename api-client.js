@@ -10,5 +10,8 @@ function addDogToApi(dog) {
 
 function deleteDogFromApi(id) {
     return axios.delete(`${API_URL}/dogs/${id}`)
+}
 
+function putDogToApi(id, dog) {
+    return axios.put(`${API_URL}/dogs/${id}`, dog)
 }
